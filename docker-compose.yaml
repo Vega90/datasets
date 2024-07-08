@@ -13,7 +13,7 @@ services:
       - 9870:9870 # hadoop
       - 8888:8888 # jupyter
       - 10000:10000 # hive
-      - 10002:10002 # hive2
+      - 10002:10002 # HiveServer2
       - 41414:41414 # avro
     volumes:
         - LOCAL_PATH:/media/notebooks
@@ -27,8 +27,8 @@ services:
     networks:
       - hadoop    
     ports:
-      - 8032:8032
-
+      - 8088:8088 # Resource Manager
+      - 19888:19888 # JobHistory
     
   datanode1:
     image: vega90/hadoop-datanode:1.0
@@ -40,11 +40,27 @@ services:
       - 50020:50020 
       - 50075:50075
       - 8042:8042
+      - 9864:9864
+      - 9866:9866
     
   datanode2:
     image: vega90/hadoop-datanode:1.0
     container_name: datanode2
     hostname: datanode2
+    networks:
+      - hadoop
+
+  datanode3:
+    image: vega90/hadoop-datanode:1.0
+    container_name: datanode3
+    hostname: datanode3
+    networks:
+      - hadoop
+
+  datanode4:
+    image: vega90/hadoop-datanode:1.0
+    container_name: datanode4
+    hostname: datanode4
     networks:
       - hadoop
  
